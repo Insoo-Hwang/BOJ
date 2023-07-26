@@ -29,9 +29,6 @@ public class Main {
                     wall[wallcnt][1] = j; //M값 저장
                     wallcnt++;
                 }
-                else if(temp == 2){
-                    visited[i][j] = true;
-                }
                 A[i][j] = temp;
             }
         }
