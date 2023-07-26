@@ -1,0 +1,104 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+    static int M;
+    static int N;
+    static int [][] A;
+    static Queue<nm> queue = new LinkedList<>();
+    static boolean[][] visited;
+    static int max = 0;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        A = new int[N][M];
+        visited = new boolean[N][M];
+        boolean zero = false;
+        boolean one = false;
+        for(int i = 0; i < N; i++){
+            st = new StringTokenizer(br.readLine());
+            for(int j = 0; j < M; j++){
+                int temp = Integer.parseInt(st.nextToken());
+                A[i][j] = temp;
+                if(temp == 0) zero = true;
+                if(temp == 1) {
+                    one = true;
+                    queue.add(new nm(i, j, 0));
+                    visited[i][j] = true;
+                }
+            }
+        }
+        if(!zero){
+            System.out.println(0);
+            return;
+        }
+        if(!one){
+            System.out.println(-1);
+            return;
+        }
+        BFS();
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < M; j++){
+                if(A[i][j] == 0){
+                    System.out.println(-1);
+                    return;
+                }
+            }
+        }
+        System.out.println(max);
+    }
+
+    static void BFS(){
+        while(!queue.isEmpty()){
+            nm now = queue.poll();
+            if(now.m < M-1){
+                if(!visited[now.n][now.m+1] && A[now.n][now.m+1] == 0){
+                    visited[now.n][now.m+1] = true;
+                    A[now.n][now.m+1] = 1;
+                    queue.add(new nm(now.n, now.m+1, now.d+1));
+                    max = now.d+1;
+                }
+            }
+            if(now.m > 0){
+                if(!visited[now.n][now.m-1] && A[now.n][now.m-1] == 0){
+                    visited[now.n][now.m-1] = true;
+                    A[now.n][now.m-1] = 1;
+                    queue.add(new nm(now.n, now.m-1, now.d+1));
+                    max = now.d+1;
+                }
+            }
+            if(now.n < N-1){
+                if(!visited[now.n+1][now.m] && A[now.n+1][now.m] == 0){
+                    visited[now.n+1][now.m] = true;
+                    A[now.n+1][now.m] = 1;
+                    queue.add(new nm(now.n+1, now.m, now.d+1));
+                    max = now.d+1;
+                }
+            }
+            if(now.n > 0){
+                if(!visited[now.n-1][now.m] && A[now.n-1][now.m] == 0){
+                    visited[now.n-1][now.m] = true;
+                    A[now.n-1][now.m] = 1;
+                    queue.add(new nm(now.n-1, now.m, now.d+1));
+                    max = now.d+1;
+                }
+            }
+        }
+    }
+}
+class nm{
+    int n;
+    int m;
+    int d;
+    public nm(int n, int m, int d){
+        super();
+        this.n = n;
+        this.m = m;
+        this.d = d;
+    }
+}
