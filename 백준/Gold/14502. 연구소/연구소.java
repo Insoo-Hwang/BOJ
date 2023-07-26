@@ -8,8 +8,8 @@ public class Main {
     static int M;
     static int [][] A;
     static boolean [][] visited;
-    static int [][] wall;
-    static int wallcnt = 0;
+    static int [][] wall; //벽을 세울 수 있는 공간
+    static int wallcnt = 0; //벽을 세울 수 있는 공간의 갯수
     static int ans = 0;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -24,9 +24,9 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             for(int j = 0; j < M; j++){
                 int temp = Integer.parseInt(st.nextToken());
-                if(temp == 0){
-                    wall[wallcnt][0] = i;
-                    wall[wallcnt][1] = j;
+                if(temp == 0){ //빈 공간이면
+                    wall[wallcnt][0] = i; //N값 저장
+                    wall[wallcnt][1] = j; //M값 저장
                     wallcnt++;
                 }
                 else if(temp == 2){
@@ -39,16 +39,16 @@ public class Main {
         System.out.println(ans);
     }
 
-    static void DFS(int index, int cnt){
-        if(cnt == 3){
-            BFS();
+    static void DFS(int index, int cnt){ //cnt는 이미 세워진 벽의 갯수
+        if(cnt == 3){ //세워진 벽의 갯수가 3개이면
+            BFS(); //바이러스 시작
             return;
         }
-        if(index > wallcnt-1) return;
+        if(index > wallcnt-1) return; //이미 세울 수 있는 공간을 초과 하면 종료
 
-        A[wall[index][0]][wall[index][1]] = 1;
+        A[wall[index][0]][wall[index][1]] = 1; //빈 공간에 벽을 세우는 경우
         DFS(index+1, cnt+1);
-        A[wall[index][0]][wall[index][1]] = 0;
+        A[wall[index][0]][wall[index][1]] = 0; //빈 공간에 벽을 세우지 않는 경우
         DFS(index+1, cnt);
     }
     static void BFS(){
@@ -57,7 +57,7 @@ public class Main {
             for(int j = 0; j < M; j++){
                 visited[i][j] = false;
                 if(A[i][j] == 2){
-                    visited[i][j] = true;
+                    visited[i][j] = true; //visited배열 초기화
                     queue.add(new nm(i, j));
                 }
             }
@@ -66,7 +66,7 @@ public class Main {
             nm now = queue.poll();
             if(now.m < M-1){
                 if(!visited[now.n][now.m+1] && A[now.n][now.m+1] == 0){
-                    visited[now.n][now.m+1] = true;
+                    visited[now.n][now.m+1] = true; //방문시 바이러스에 감염
                     queue.add(new nm(now.n, now.m+1));
                 }
             }
@@ -94,7 +94,7 @@ public class Main {
         for(int i = 0; i < N; i++){
             for(int j = 0; j < M; j++){
                 if(A[i][j] == 0 && !visited[i][j]){
-                    cnt++;
+                    cnt++; //안전지대 갯수
                 }
             }
         }
