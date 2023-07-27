@@ -29,7 +29,7 @@ public class Main {
         int cnt = 0;
         while(true) {
             if(!check()) break;
-            visited = new boolean[N][N];
+            visited = new boolean[N][N]; //하루가 지나면 방문 배열 초기화
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
                     if(!visited[i][j])
@@ -43,13 +43,13 @@ public class Main {
     }
 
     public static void BFS(int x, int y){
-        Queue<int[]> queue = new LinkedList<>();
-        Queue<int[]> backup = new LinkedList<>();
+        Queue<int[]> queue = new LinkedList<>(); //방문 예정인 곳 넣기
+        Queue<int[]> backup = new LinkedList<>(); //합쳐지는 나라 명단
         queue.add(new int[]{x, y});
         backup.add(new int[]{x, y});
         visited[x][y] = true;
-        int sum = A[x][y];
-        int n = 1;
+        int sum = A[x][y]; //연합인 나라의 인구 수 전체 합
+        int n = 1; //연합인 나라의 수
         while(!queue.isEmpty()){
             int [] now = queue.poll();
             for(int i = 0; i < 4; i++){
@@ -57,8 +57,8 @@ public class Main {
                 y = now[1] + dy[i];
                 if(x >= N || x < 0 || y >= N || y < 0) continue;
                 if(visited[x][y]) continue;
-                int cal = Math.abs(A[x][y] - A[now[0]][now[1]]);
-                if(cal >= L && cal <= R){
+                int cal = Math.abs(A[x][y] - A[now[0]][now[1]]); //두 나라간의 인구수 차
+                if(cal >= L && cal <= R){ //범위 안에 들면
                     visited[x][y] = true;
                     backup.add(new int[]{x, y});
                     sum+=A[x][y];
@@ -69,11 +69,11 @@ public class Main {
         }
         int avg = sum/n;
         for(int[] temp : backup){
-            A[temp[0]][temp[1]] = avg;
+            A[temp[0]][temp[1]] = avg; //연합인 나라들의 인구수 조정
         }
     }
 
-    public static boolean check(){
+    public static boolean check(){ //모든 인접 나라의 인구수가 범위 안에 있는지 여부 확인
         for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
                 for(int k = 0; k < 4; k++){
