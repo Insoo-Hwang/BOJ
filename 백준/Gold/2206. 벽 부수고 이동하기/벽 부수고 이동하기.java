@@ -45,6 +45,10 @@ public class Main {
                 break;
             }
 
+            /*if(now[3] == 0)
+                visited[0][now[0]][now[1]] = true;
+            visited[1][now[0]][now[1]] = true;*/ //아래 반복문에서 방문을 처리하지 않고 이렇게 해결시 정답은 맞으나 메모리 초과 발생
+
             int tempb = now[3]; //부순 벽의 수 백업
             for(int i = 0; i < 4; i++){
                 int x = now[0] + dx[i];
