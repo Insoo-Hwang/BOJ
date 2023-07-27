@@ -55,7 +55,7 @@ public class Main {
                         queue.add(new int[]{x, y, now[2]+1, now[3]});
                     }
                     else if(!visited[now[3]][x][y] && tempb == 0){ //벽이 있는데 이미 부수지 않은 경우
-                        visited[1][x][y] = true;
+                        visited[1][x][y] = true; //벽을 부순 모드 방문 배열에 방문 표시
                         queue.add(new int[]{x, y, now[2]+1, 1});
                     }
                 }
