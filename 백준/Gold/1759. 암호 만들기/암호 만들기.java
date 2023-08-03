@@ -20,14 +20,14 @@ public class Main {
         for(int i = 0; i < C; i++){
             A[i] = str[i].charAt(0);
         }
-        Arrays.sort(A);
+        Arrays.sort(A); //알파벳을 사전 순으로 정렬
 
         DFS(0, 0, 0);
     }
 
-    static void DFS(int d, int s, int c){
+    static void DFS(int d, int s, int c){ //깊이, 시작 숫자, 모음의 개수
         if(d == L){
-            if(c >= 1 && L-c >= 2){
+            if(c >= 1 && L-c >= 2){ //모음 및 자음의 개수 확인
                 for(int i = 0; i < C; i++){
                     if(visited[i]){
                         System.out.print(A[i]);
@@ -40,7 +40,7 @@ public class Main {
         for(int i = s; i < C; i++){
             if(!visited[i]){
                 visited[i] = true;
-                if(A[i] == 'a' || A[i] == 'e' || A[i] == 'i' || A[i] == 'o' || A[i] == 'u')
+                if(A[i] == 'a' || A[i] == 'e' || A[i] == 'i' || A[i] == 'o' || A[i] == 'u') //모음의 개수 업데이트
                     c++;
                 DFS(d+1, i, c);
                 visited[i] = false;
