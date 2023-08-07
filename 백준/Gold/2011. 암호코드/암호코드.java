@@ -13,7 +13,7 @@ public class Main {
         for(int i = 0; i < N.length(); i++){
             A[i] = N.charAt(i) - '0';
         }
-        if(A[0] == 0){
+        if(A[0] == 0){ //맨 앞이 0일 경우 암호 성립이 불가능
             System.out.println(0);
             return;
         }
