@@ -17,8 +17,8 @@ public class Main {
 
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
-        A = new int[N*2][2];
-        B = new int[13][2];
+        A = new int[N*2][2]; //집의 위치 저장 배열
+        B = new int[13][2]; //치킨집의 위치 저장 배열
         house = 0;
         chicken = 0;
         for(int i = 0; i < N; i++){
@@ -37,32 +37,32 @@ public class Main {
                 }
             }
         }
-        visited = new boolean[chicken];
+        visited = new boolean[chicken]; //폐업이 선택된 치킨집 구분 배열
         delete = chicken - M;
 
         DFS(0, 0);
         System.out.println(min);
     }
 
-    static void DFS(int p, int n){
+    static void DFS(int p, int n){ //p는 선택된 치킨집의 수, n은 치킨집의 순서
         if(n == chicken && p != delete) return;
         if(p == delete){
             chickenRoute();
             return;
         }
-        visited[n] = true;
+        visited[n] = true; //폐업이 선택된 경우의 수
         DFS(p+1, n+1);
-        visited[n] = false;
+        visited[n] = false; //폐업이 선택되지 않은 경우의 수
         DFS(p, n+1);
     }
 
     static void chickenRoute(){
-        int temp = 0;
+        int temp = 0; //전체 치킨 거리의 합
         for(int i = 0; i < house; i++){
             int tempmin = Integer.MAX_VALUE;
             for(int j = 0; j < chicken; j++){
-                if(!visited[j]){
-                    tempmin = Math.min(tempmin, Math.abs(A[i][0] - B[j][0]) + Math.abs(A[i][1] - B[j][1]));
+                if(!visited[j]){ //폐업이 선택되지 않은 치킨집인 경우
+                    tempmin = Math.min(tempmin, Math.abs(A[i][0] - B[j][0]) + Math.abs(A[i][1] - B[j][1])); //치킨 거리 업데이트
                 }
             }
             temp += tempmin;
