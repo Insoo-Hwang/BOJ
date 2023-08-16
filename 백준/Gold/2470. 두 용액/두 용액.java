@@ -16,12 +16,12 @@ public class Main {
         }
         Arrays.sort(A);
 
-        long min = Integer.MAX_VALUE;
-        int [] B = new int[2];
+        long min = Integer.MAX_VALUE; //두 용액의 특성값의 합이 0에 가까운 값
+        int [] B = new int[2]; //최소값을 만들 수 있는 두 용액
         for(int i = 0; i < N-1; i++){
-            if(min > Math.abs(A[i].v + A[i+1].v)){
-                min = Math.abs(A[i].v + A[i+1].v);
-                B[0] = A[i].v;
+            if(min > Math.abs(A[i].v + A[i+1].v)){ //0에 가까운 두 용액을 발견하면
+                min = Math.abs(A[i].v + A[i+1].v); //0에 가까운 값 업데이트
+                B[0] = A[i].v; //두 용액 정보 저장
                 B[1] = A[i+1].v;
             }
         }
@@ -31,14 +31,14 @@ public class Main {
         }
     }
     static class Liquid implements Comparable<Liquid>{
-        int v;
-        int tv;
+        int v; //용액의 특성값
+        int tv; //용액의 특성값의 절대값
         public Liquid(int v){
             this.v = v;
             tv = Math.abs(v);
         }
         @Override
-        public int compareTo(Liquid o) {
+        public int compareTo(Liquid o) { //절대값 기준 오름차순, 절대값이 같을 경우 특성값의 오름차순
             if(this.tv == o.tv){
                 return this.v - o.v;
             }
