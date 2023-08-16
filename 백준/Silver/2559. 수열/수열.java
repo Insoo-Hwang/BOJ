@@ -11,18 +11,14 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
         st = new StringTokenizer(br.readLine());
-        int A [] = new int[N];
-        for(int i = 0; i < N; i++){
-            A[i] = Integer.parseInt(st.nextToken());
+        int A [] = new int[N+1];
+        for(int i = 1; i < N+1; i++){
+            A[i] = A[i-1] + Integer.parseInt(st.nextToken());
         }
 
         int max = Integer.MIN_VALUE;
-        for(int i = 0; i < N-K+1; i++){
-            int temp = 0;
-            for(int j = i; j < i+K; j++){
-                temp += A[j];
-            }
-            max = Math.max(max, temp);
+        for(int i = K; i < N+1; i++){
+            max = Math.max(max, A[i] - A[i-K]);
         }
         System.out.println(max);
     }
