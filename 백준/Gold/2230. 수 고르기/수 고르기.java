@@ -16,21 +16,21 @@ public class Main {
         }
         Arrays.sort(A);
 
-        int start = 0;
-        int end = 1;
-        int min = Integer.MAX_VALUE;
-        while(end < N){
-            int temp = Math.abs(A[start] - A[end]);
-            if(temp == M){
+        int start = 0; //시작 포인터
+        int end = 1; //끝 포인터
+        int min = Integer.MAX_VALUE; //두 수의 차이
+        while(end < N){ //끝 포인터가 배열 끝까지 가게 되면
+            int temp = Math.abs(A[start] - A[end]); //두 수의 차이
+            if(temp == M){ //M보다 같으면 더 이상 반복문을 돌 필요가 없음
                 min = M;
                 break;
             }
-            else if(temp < M){
+            else if(temp < M){ //M보다 작으면 끝 포인터를 이동
                 end++;
             }
-            else{
+            else{ //M보다 크면 시작 포인터를 이동
                 start++;
-                min = Math.min(min, temp);
+                min = Math.min(min, temp); //두 수의 차이 업데이트
             }
         }
         System.out.println(min);
