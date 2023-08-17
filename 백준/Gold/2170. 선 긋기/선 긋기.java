@@ -16,14 +16,14 @@ public class Main {
         }
         Arrays.sort(A);
 
-        int start = A[0].x;
-        long sum = A[0].y - A[0].x;
+        int start = A[0].x; //이전 항목의 시작점
+        long sum = A[0].y - A[0].x; //전체 길이
         for(int i = 1; i < N; i++){
-            if(start < A[i].x) continue;
-            if(start > A[i].y){
+            if(start < A[i].x) continue; //현재 선이 이전 선 안에 포함되는 경우
+            if(start > A[i].y){ //이전 선과 현재 선이 분리되어 있는 경우
                 sum += Math.abs(A[i].y - A[i].x);
             }
-            else{
+            else{ //이전 선과 현재 선이 연결된 경우
                 sum += Math.abs(start - A[i].x);
             }
             start = A[i].x;
@@ -40,10 +40,10 @@ public class Main {
 
         @Override
         public int compareTo(XY o) {
-            if(this.y == o.y){
-                return this.x - o.x;
+            if(this.y == o.y){ //끝 부분 좌표가 같으면 
+                return this.x - o.x; //시작 부분 기준으로 오름차순
             }
-            return o.y - this.y;
+            return o.y - this.y; //끝 부분 기준으로 내림차순
         }
     }
 }
