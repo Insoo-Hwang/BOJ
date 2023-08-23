@@ -12,7 +12,7 @@ public class Main {
         int C = Integer.parseInt(st.nextToken());
         int T = Integer.parseInt(st.nextToken());
         int [][] A = new int[R][C];
-        int [] air = new int[2];
+        int [] air = new int[2]; //공기청정기의 위치
         int tempB = 0;
         for(int i = 0; i < R; i++){
             st = new StringTokenizer(br.readLine());
@@ -27,7 +27,7 @@ public class Main {
         }
 
         while(T-->0){
-            int [][] B = new int[R][C];
+            int [][] B = new int[R][C]; //미세먼지의 이동은 한번에 이루어져야 하나 배열 특성상 순차적으로 적용되기 때문에 후에 한번에 적용하기 위한 복사본 생성
             for(int i = 0; i < R; i++){
                 for(int j = 0; j < C; j++){
                     B[i][j] = A[i][j];
@@ -36,8 +36,8 @@ public class Main {
             for(int i = 0; i < R; i++){
                 for(int j = 0; j < C; j++){
                     if(A[i][j] < 1) continue;
-                    if(i != 0 && A[i-1][j] != -1){
-                        int temp = A[i][j]/5;
+                    if(i != 0 && A[i-1][j] != -1){ //현재 칸이 끝부분이 아니고 주변에 공기청정기가 없는 경우
+                        int temp = A[i][j]/5; //미세먼지가 퍼짐
                         B[i-1][j] += temp;
                         B[i][j] -= temp;
                     }
@@ -58,39 +58,39 @@ public class Main {
                     }
                 }
             }
-            for(int i = air[0]-1; i > 0; i--){
+            for(int i = air[0]-1; i > 0; i--){ //공기청정기 윗부분 ↓ 방향
                 B[i][0] = B[i-1][0];
             }
-            for(int i = 0; i < C-1; i++){
+            for(int i = 0; i < C-1; i++){ //공기청정기 윗부분 ← 방향
                 B[0][i] = B[0][i+1];
             }
-            for(int i = 0; i < air[0]; i++){
+            for(int i = 0; i < air[0]; i++){ //공기청정기 윗부분 ↑ 방향
                 B[i][C-1] = B[i+1][C-1];
             }
-            for(int i = C-1; i > 1; i--){
+            for(int i = C-1; i > 1; i--){ //공기청정기 윗부분 → 방향
                 B[air[0]][i] = B[air[0]][i-1];
             }
-            B[air[0]][1] = 0;
-            for(int i = air[1]+1; i < R-1; i++){
+            B[air[0]][1] = 0; //공기청정기 윗부분 바로 오른쪽 칸은 항상 깨끗한 공기
+            for(int i = air[1]+1; i < R-1; i++){ //공기청정기 아랫부분 ↑ 방향
                 B[i][0] = B[i+1][0];
             }
-            for(int i = 0; i < C-1; i++){
+            for(int i = 0; i < C-1; i++){ //공기청정기 아랫부분 ← 방향
                 B[R-1][i] = B[R-1][i+1];
             }
-            for(int i = R-1; i > air[1]; i--){
+            for(int i = R-1; i > air[1]; i--){ //공기청정기 아랫부분 ↓ 방향
                 B[i][C-1] = B[i-1][C-1];
             }
-            for(int i = C-1; i > 1; i--){
+            for(int i = C-1; i > 1; i--){ //공기청정기 아랫부분 → 방향
                 B[air[1]][i] = B[air[1]][i-1];
             }
-            B[air[1]][1] = 0;
-            A = B;
+            B[air[1]][1] = 0; //공기청정기 아랫부분 바로 오른쪽 칸은 항상 깨끗한 공기
+            A = B; //적용
         }
         int cnt = 0;
         for(int i = 0; i < R; i++){
             for(int j = 0; j < C; j++){
                 if(A[i][j] == -1) continue;
-                cnt += A[i][j];
+                cnt += A[i][j]; //전체적인 미세먼지 수 합하기
             }
         }
         System.out.println(cnt);
