@@ -56,7 +56,118 @@ public class Main {
                     if(B[i][j] == 0) continue; //해당 배열에 값이 없다면 패스
                     if(i != N-1){ //가장 아래에 있는 값은 더 아래의 값과 합쳐질 수 없음
                         for(int k = i+1; k < N; k++){ //아래 값이 0일때 그보다 더 아래 값과 합쳐질 수 있음
-                            if(B[i][j] != B[k][j] && B[k][j] 우
+                            if(B[i][j] != B[k][j] && B[k][j] != 0){ //아래 값이 0이 아니고 B[i][j]와 다르면 합쳐질 수 없음
+                                break;
+                            }
+                            else if(B[i][j] == B[k][j]){ //같다면 합쳐질 수 있음
+                                B[i][j]*=2;
+                                B[k][j] = 0;
+                                break;
+                            }
+                        }
+                    }
+                    int temp = i-1; //위로 이동하기 위한 변수
+                    while(true){
+                        if(temp < 0) break; //맨 위에 도달하면 정지
+                        if(B[temp][j] != 0) break; //자신보다 위의 값이 0이 아닌 경우 정지
+                        B[temp][j] = B[temp+1][j]; //위로 이동
+                        B[temp+1][j] = 0;
+                        temp--;
+                    }
+                }
+            }
+            A = B;
+            move(1, d+1); //위로 이동
+            A = B;
+            move(2, d+1); //아래로 이동
+            A = B;
+            move(3, d+1); //우로 이동
+            A = B;
+            move(4, d+1); //좌로 이동
+        }
+        else if(n == 2){ //아래로 이동하는 경우
+            int [][] B = new int[N][N];
+            for(int i = 0; i < N; i++){
+                for(int j = 0; j < N; j++){
+                    B[i][j] = A[i][j];
+                }
+            }
+            for(int i = N-1; i > -1; i--){
+                for(int j = 0; j < N; j++){
+                    if(B[i][j] == 0) continue;
+                    if(i != 0){
+                        for(int k = i-1; k > -1; k--){
+                            if(B[i][j] != B[k][j] && B[k][j] != 0){
+                                break;
+                            }
+                            else if(B[i][j] == B[k][j]){
+                                B[i][j]*=2;
+                                B[k][j] = 0;
+                                break;
+                            }
+                        }
+                    }
+                    int temp = i+1;
+                    while(true){
+                        if(temp >= N) break;
+                        if(B[temp][j] != 0) break;
+                        B[temp][j] = B[temp-1][j];
+                        B[temp-1][j] = 0;
+                        temp++;
+                    }
+                }
+            }
+            A = B;
+            move(1, d+1);
+            A = B;
+            move(2, d+1);
+            A = B;
+            move(3, d+1);
+            A = B;
+            move(4, d+1);
+        }
+        else if(n == 3){ //우로 이동하는 경우
+            int [][] B = new int[N][N];
+            for(int i = 0; i < N; i++){
+                for(int j = 0; j < N; j++){
+                    B[i][j] = A[i][j];
+                }
+            }
+            for(int i = 0; i < N; i++){
+                for(int j = N-1; j > -1; j--){
+                    if(B[i][j] == 0) continue;
+                    if(j != 0){
+                        for(int k = j-1; k > -1; k--){
+                            if(B[i][j] != B[i][k] && B[i][k] != 0){
+                                break;
+                            }
+                            else if(B[i][j] == B[i][k]){
+                                B[i][j]*=2;
+                                B[i][k] = 0;
+                                break;
+                            }
+                        }
+                    }
+                    int temp = j+1;
+                    while(true){
+                        if(temp >= N) break;
+                        if(B[i][temp] != 0) break;
+                        B[i][temp] = B[i][temp-1];
+                        B[i][temp-1] = 0;
+                        temp++;
+                    }
+                }
+            }
+            A = B;
+            move(1, d+1);
+            A = B;
+            move(2, d+1);
+            A = B;
+            move(3, d+1);
+            A = B;
+            move(4, d+1);
+        }
+        else if(n == 4){ //좌로 이동하는 경우
             int [][] B = new int[N][N];
             for(int i = 0; i < N; i++){
                 for(int j = 0; j < N; j++){
