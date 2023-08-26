@@ -34,11 +34,11 @@ public class Main {
     static void BFS(){
         Queue<NM> queue = new LinkedList<>();
         queue.add(new NM(0, 0, 0, 1));
-        boolean [][][] visited = new boolean[N][M][11];
+        boolean [][][] visited = new boolean[N][M][11]; //3차원은 부순 벽의 수
         visited[0][0][0] = true;
         while(!queue.isEmpty()){
             NM now = queue.poll();
-            if(now.n == N-1 && now.m == M-1){
+            if(now.n == N-1 && now.m == M-1){ //(N, M)에 도착하면 최소값 업데이트
                 min = Math.min(min, now.c);
                 continue;
             }
@@ -46,11 +46,11 @@ public class Main {
                 int tempn = now.n + dy[i];
                 int tempm = now.m + dx[i];
                 if(tempn < 0 || tempn > N-1 || tempm < 0 || tempm > M-1) continue;
-                if(A[tempn][tempm] == 1 && now.k < K && !visited[tempn][tempm][now.k+1]){
+                if(A[tempn][tempm] == 1 && now.k < K && !visited[tempn][tempm][now.k+1]){ //벽을 부수는 경우
                     queue.add(new NM(tempn, tempm, now.k+1, now.c+1));
                     visited[tempn][tempm][now.k+1] = true;
                 }
-                else if(A[tempn][tempm] == 0 && !visited[tempn][tempm][now.k]) {
+                else if(A[tempn][tempm] == 0 && !visited[tempn][tempm][now.k]) { //벽을 부수지 않은 경우
                     queue.add(new NM(tempn, tempm, now.k, now.c+1));
                     visited[tempn][tempm][now.k] = true;
                 }
@@ -59,10 +59,10 @@ public class Main {
     }
 
     static class NM{
-        int n;
-        int m;
-        int k;
-        int c;
+        int n; //n좌표
+        int m; //m좌표
+        int k; //부순 벽의 수
+        int c; //이동한 칸의 수
         public NM(int n, int m, int k, int c){
             this.n = n;
             this.m = m;
