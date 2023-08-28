@@ -47,9 +47,16 @@ public class Main {
         queue.add(new Shark(start[0], start[1], 0));
         boolean [][] visited = new boolean[N][N];
         visited[start[0]][start[1]] = true;
+        int route = 0;
         while(!queue.isEmpty()){
             Shark now = queue.poll();
             if(A[now.n][now.m] < size && A[now.n][now.m] > 0){
+                if(route == 0){
+                    route = now.c;
+                }
+                else if(route < now.c){
+                    break;
+                }
                 fish.add(new Fish(now.n, now.m, now.c));
                 continue;
             }
