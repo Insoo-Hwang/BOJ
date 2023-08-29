@@ -19,15 +19,15 @@ public class Main {
         }
 
         int min = Integer.MAX_VALUE;
-        D[1][0] = A[1][0];
+        D[1][0] = A[1][0]; //R색으로 칠하고 마지막 집은 R색이 아닌 것 중 최소값 찾기
         D[1][1] = 1000001;
         D[1][2] = 1000001;
         for(int i = 2; i < N+1; i++){
-            D[i][0] = Math.min(D[i-1][1], D[i-1][2]) + A[i][0];
+            D[i][0] = Math.min(D[i-1][1], D[i-1][2]) + A[i][0]; //전에 칠한 집과 색이 겹치지 않게 DP 업데이트
             D[i][1] = Math.min(D[i-1][0], D[i-1][2]) + A[i][1];
             D[i][2] = Math.min(D[i-1][0], D[i-1][1]) + A[i][2];
         }
-        min = Math.min(min, Math.min(D[N][1], D[N][2]));
+        min = Math.min(min, Math.min(D[N][1], D[N][2])); //1번 집에서 R색을 칠했으므로 마지막 집은 G 또는 B색 중 최소값 찾기
         D[1][0] = 1000001;
         D[1][1] = A[1][1];
         D[1][2] = 1000001;
