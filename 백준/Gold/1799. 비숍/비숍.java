@@ -96,7 +96,7 @@ public class Main {
             if(n-temp > -1){
                 if(!A[n-temp][i]) { //원래 가능한 곳이 었으면
                     A[n - temp][i] = true; //불가능하게 만들고
-                    avaB--; //가능한 자리수 감소소
+                    avaB--; //가능한 자리수 감소
                 }
             }
             if(n+temp < N){
