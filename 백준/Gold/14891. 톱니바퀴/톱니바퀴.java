@@ -8,7 +8,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         //StringTokenizer st = new StringTokenizer(br.readLine());
 
-        List<Integer> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<>(); //0~7 : 1번, 8~15 : 2번, 16~23 : 3번, 24~31 : 4번
         for(int i = 0; i < 4; i++) {
             String s = br.readLine();
             for (int j = 0; j < 8; j++) {
@@ -21,29 +21,29 @@ public class Main {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int n = Integer.parseInt(st.nextToken());
             int d = Integer.parseInt(st.nextToken());
-            int L = list.get((n-1)*8+6);
-            int R = list.get((n-1)*8+2);
+            int L = list.get((n-1)*8+6); //현재 톱니바퀴의 9시 방향
+            int R = list.get((n-1)*8+2); //현재 톱니바퀴의 3시 방향
             int tempd = d;
-            for(int i = n-2; i >= 0; i--){
-                if(list.get(i*8+2) != L){
-                    L = list.get(i*8+6);
-                    if(tempd == -1){
+            for(int i = n-2; i >= 0; i--){ //좌측 톱니바퀴 탐색
+                if(list.get(i*8+2) != L){ //현재 톱니바퀴의 3시 방향이 오른쪽 톱니바퀴의 9시 방향과 다르면
+                    L = list.get(i*8+6); //다음 톱니바퀴 탐색을 위해 L 업데이트
+                    if(tempd == -1){ //이전 톱니바퀴가 반시계 방향이면 시계 방향으로 회전
                         int temp = list.remove(i*8+7);
                         list.add(i*8, temp);
-                        tempd = 1;
+                        tempd = 1; //방향을 바꿈
                     }
-                    else{
+                    else{ //이전 톱니바퀴가 시계 방향이면 반시계 방향으로 회전
                         int temp = list.remove(i*8);
                         list.add(i*8+7, temp);
                         tempd = -1;
                     }
                 }
-                else{
+                else{ //톱니바퀴가 움직이지 않으면 정지
                     break;
                 }
             }
             tempd = d;
-            for(int i = n; i < 4; i++){
+            for(int i = n; i < 4; i++){ //우측 톱니바퀴 탐색
                 if(list.get(i*8+6) != R){
                     R = list.get(i*8+2);
                     if(tempd == -1){
@@ -61,7 +61,7 @@ public class Main {
                     break;
                 }
             }
-            if(d == 1){
+            if(d == 1){ //처음 움직인 톱니바퀴 회전
                 int temp = list.remove((n-1)*8+7);
                 list.add((n-1)*8, temp);
             }
