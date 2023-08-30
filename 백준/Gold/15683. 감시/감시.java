@@ -85,7 +85,81 @@ public class Main {
             backTracking(backUp);
             LEFT(d);
             RIGHT(d);
-           인
+            DFS(d+1);
+            backTracking(backUp);
+        }
+        else if(cctv[d][2] == 3){ //3번 CCTV
+            UP(d);
+            LEFT(d);
+            DFS(d+1);
+            backTracking(backUp);
+            UP(d);
+            RIGHT(d);
+            DFS(d+1);
+            backTracking(backUp);
+            DOWN(d);
+            LEFT(d);
+            DFS(d+1);
+            backTracking(backUp);
+            DOWN(d);
+            RIGHT(d);
+            DFS(d+1);
+            backTracking(backUp);
+        }
+        else if(cctv[d][2] == 4){ //4번 CCTV
+            UP(d);
+            LEFT(d);
+            RIGHT(d);
+            DFS(d+1);
+            backTracking(backUp);
+            DOWN(d);
+            LEFT(d);
+            RIGHT(d);
+            DFS(d+1);
+            backTracking(backUp);
+            LEFT(d);
+            UP(d);
+            DOWN(d);
+            DFS(d+1);
+            backTracking(backUp);
+            RIGHT(d);
+            UP(d);
+            DOWN(d);
+            DFS(d+1);
+            backTracking(backUp);
+        }
+        else{
+            UP(d);
+            DOWN(d);
+            LEFT(d);
+            RIGHT(d);
+            DFS(d+1);
+            backTracking(backUp);
+        }
+    }
+
+    static void UP(int d){
+        for(int i = cctv[d][0]; i > -1; i--){
+            if(A[i][cctv[d][1]] == 6) break;
+            B[i][cctv[d][1]] = 7;
+        }
+    }
+
+    static void DOWN(int d){
+        for(int i = cctv[d][0]; i < N; i++){
+            if(A[i][cctv[d][1]] == 6) break;
+            B[i][cctv[d][1]] = 7;
+        }
+    }
+
+    static void LEFT(int d){
+        for(int i = cctv[d][1]; i > -1; i--){
+            if(A[cctv[d][0]][i] == 6) break;
+            B[cctv[d][0]][i] = 7;
+        }
+    }
+
+    static void RIGHT(int d){
         for(int i = cctv[d][1]; i < M; i++){
             if(A[cctv[d][0]][i] == 6) break;
             B[cctv[d][0]][i] = 7;
