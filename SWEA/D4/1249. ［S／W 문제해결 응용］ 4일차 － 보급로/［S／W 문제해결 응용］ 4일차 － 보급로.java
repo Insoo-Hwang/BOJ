@@ -31,7 +31,7 @@ public class Solution {
         int [][] visited = new int[N][N];
         for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
-                visited[i][j] = Integer.MAX_VALUE;
+                visited[i][j] = Integer.MAX_VALUE; //방문 배열보다 값이 작으면 이미 방문한 것으로 처리
             }
         }
         visited[0][0] = 0;
@@ -41,23 +41,23 @@ public class Solution {
         while(!queue.isEmpty()){
             Route now = queue.poll();
             if(now.n == N-1 && now.m == N-1){
-                min = Math.min(min, now.c);
+                min = Math.min(min, now.c); //도착칸에 도달하면 값 업데이트
                 continue;
             }
             for(int i = 0; i < 4; i++){
                 int y = now.n + dy[i];
                 int x = now.m + dx[i];
-                if(y > N-1 || y < 0 || x > N-1 || x < 0 || now.c+A[y][x] >= visited[y][x]) continue;
-                visited[y][x] = now.c+A[y][x];
+                if(y > N-1 || y < 0 || x > N-1 || x < 0 || now.c+A[y][x] >= visited[y][x]) continue; //이동하려는 칸의 공사시간보다 길면 패스
+                visited[y][x] = now.c+A[y][x]; //이동하려는 칸의 공사시간 보다 짧으면 업데이트
                 queue.add(new Route(y, x, now.c+A[y][x]));
             }
         }
     }
 
     static class Route{
-        int n;
-        int m;
-        int c;
+        int n; //n좌표
+        int m; //m좌표
+        int c; //공사 시간
         public Route(int n, int m, int c){
             this.n = n;
             this.m = m;
