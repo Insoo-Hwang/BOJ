@@ -44,17 +44,11 @@ public class Main {
         if(p%2 == 0){
             for(int i = 0; i < N; i++){
                 if(!alive[i] || i == E) continue;
-                for(int j = 0; j < N; j++){
-                    if(!alive[j]) continue;
-                    A[j]+=R[i][j];
-                }
+                change(i, 1);
                 alive[i] = false;
                 DFS(c+1, p-1);
                 alive[i] = true;
-                for(int j = 0; j < N; j++){
-                    if(!alive[j]) continue;
-                    A[j]-=R[i][j];
-                }
+                change(i, -1);
             }
         }
         else{
@@ -72,6 +66,13 @@ public class Main {
             alive[idx] = false;
             DFS(c, p-1);
             alive[idx] = true;
+        }
+    }
+
+    static void change(int d, int t){
+        for(int i = 0; i < N; i++){
+            if(!alive[i]) continue;
+            A[i]+=R[d][i]*t;
         }
     }
 }
