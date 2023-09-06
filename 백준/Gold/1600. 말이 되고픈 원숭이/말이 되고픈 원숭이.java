@@ -35,19 +35,19 @@ public class Main {
     }
 
     static void BFS(){
-        boolean [][][] visited = new boolean[H][W][K+1];
+        boolean [][][] visited = new boolean[H][W][K+1]; //(H, W)에 말처럼 이동한 횟수가 K일 때 방문했는지 여부
         visited[0][0][0] = true;
         Queue<Monkey> queue = new LinkedList<>();
         queue.add(new Monkey(0, 0, 0, 0));
 
         while(!queue.isEmpty()){
             Monkey now = queue.poll();
-            if(now.n == H-1 && now.m == W-1){
-                min = Math.min(min, now.c);
+            if(now.n == H-1 && now.m == W-1){ //도착하면
+                min = Math.min(min, now.c); //최소 이동 횟수 업데이
                 return;
             }
-            if(now.k < K){
-                for(int i = 0; i < 8; i++){
+            if(now.k < K){ //말처럼 이동 가능할 때
+                for(int i = 0; i < 8; i++){ //말처럼 이동
                     int y = now.n + ky[i];
                     int x = now.m + kx[i];
                     if(y < 0 || y > H-1 || x < 0 || x > W-1 || A[y][x] == 1 || visited[y][x][now.k+1]) continue;
@@ -55,7 +55,7 @@ public class Main {
                     queue.add(new Monkey(y, x, now.c+1, now.k+1));
                 }
             }
-            for(int i = 0; i < 4; i++){
+            for(int i = 0; i < 4; i++){ //그냥 이동
                 int y = now.n + dy[i];
                 int x = now.m + dx[i];
                 if(y < 0 || y > H-1 || x < 0 || x > W-1 || A[y][x] == 1 || visited[y][x][now.k]) continue;
@@ -66,10 +66,10 @@ public class Main {
     }
 
     static class Monkey{
-        int n;
-        int m;
-        int c;
-        int k;
+        int n; //n좌표
+        int m; //m좌표
+        int c; //이동 횟수
+        int k; //말처럼 이동한 횟수
         public Monkey(int n, int m, int c, int k){
             this.n = n;
             this.m = m;
