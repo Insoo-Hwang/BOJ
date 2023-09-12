@@ -1,52 +1,39 @@
+import java.util.*;
 class Solution {
-    //d l r u
-    int[] dx = {1,0,0,-1};
-    int[] dy = {0,-1,1,0};
-    Character[] posChar = {'d','l','r','u'};
-    boolean stop = false;
-    String answer = "impossible";
-    int n , m,sx,sy,ex,ey;
-    //n x m
+    static int N;
+    static int M;
+    static int startN;
+    static int startM;
+    static int endN;
+    static int endM;
+    static int K;
+    static int [] dy = {1, 0, 0, -1};
+    static int [] dx = {0, -1, 1, 0};
+    static String [] ds = {"d", "l", "r", "u"};
+    static String answer = "impossible";
+    static boolean check = false;
     public String solution(int n, int m, int x, int y, int r, int c, int k) {
-        this.n = n;
-        this.m = m;
-        sx = x-1;
-        sy = y-1;
-        ex = r-1;
-        ey = c-1;
+        N = n; M = m; startN = x; startM = y; endN = r; endM = c; K = k;
         
-        if(sx == ex && sy == ey)return "";
-        if(!canArrival(sx,sy,k)) return answer;
-        helper(sx,sy,k-1,"");
+        DFS(startN, startM, 0, "");
         return answer;
     }
-    //거리, 움직일 횟수
-    public boolean canArrival(int cx, int cy, int k){
-        int d = getD(cx,cy,ex,ey);
-        if(d > k || (k-d) % 2 == 1 )return false;
-        else return true;
-    }
-    public int getD(int ax, int ay, int bx, int by){
-        return Math.abs(ax - bx) + Math.abs(ay - by);
-    }
     
-    public void helper(int x, int y ,int cnt, String cur){
-        if(stop || cnt < 0)return;
-        
-        for(int k = 0 ; k < 4 ;k++){
-            if(stop)return;
-            int nx = x + dx[k];
-            int ny = y + dy[k];
-            if(nx < 0 || ny < 0 || nx > n-1 
-               || ny > m-1 || !canArrival(nx,ny,cnt) )continue;
-            if(cnt > 0)
-                helper(nx, ny, cnt-1, cur+posChar[k]);
-            //System.out.println("현재 문자"+cur+"위치"+nx+","+ny+"cnt:"+cnt+"목표"+ex+",");
-            if(nx == ex && ny == ey && cnt ==0){
-                stop = true;
-                answer = cur+posChar[k];
-                return;
-            }
+    static void DFS(int n, int m, int c, String s){
+        if(c == K){
+            if(n != endN || m != endM) return;
+            answer = s;
+            check = true;
+            return;
+        }
+        for(int i = 0; i < 4; i++){
+            int y = n + dy[i];
+            int x = m + dx[i];
+            if(y < 1 || y > N || x < 1 || x > N) continue;
+            if(Math.abs(y-endN)+Math.abs(x-endM) > K-c-1) continue;
+            if((K-c-1-Math.abs(y-endN)+Math.abs(x-endM))%2 == 1) continue;
+            DFS(y, x, c+1, s+ds[i]);
+            if(check) return;
         }
     }
 }
