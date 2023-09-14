@@ -28,11 +28,11 @@ public class Main {
             }
         }
 
-        visited = new boolean[N][M];
-        cycle = new boolean[N][M];
+        visited = new boolean[N][M]; //방문 여부 확인
+        cycle = new boolean[N][M]; //사이클 여부 확인
         for(int i = 0; i < N; i++){
             for(int j = 0; j < M; j++){
-                if(visited[i][j]) continue;
+                if(visited[i][j]) continue; //이미 지나온 곳이면 패스
                 DFS(i, j);
             }
         }
@@ -44,14 +44,14 @@ public class Main {
 
         int y = n + dy[A[n][m]];
         int x = m + dx[A[n][m]];
-        if(!visited[y][x]){
-            DFS(y, x);
+        if(!visited[y][x]){ //방문하지 않은 곳이면
+            DFS(y, x); //계속 진행
         }
         else{
-            if(!cycle[y][x]){
+            if(!cycle[y][x]){ //이미 사이클이었던 곳인지 확인 후 아니면 세이프티 존 추가
                 cnt++;
             }
         }
-        cycle[n][m] = true;
+        cycle[n][m] = true; //지나온 곳은 사이클로 처리
     }
 }
