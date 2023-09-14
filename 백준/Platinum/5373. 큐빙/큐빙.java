@@ -7,14 +7,14 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    static char [][] R = new char[3][3];
-    static char [][] W = new char[3][3];
-    static char [][] O = new char[3][3];
-    static char [][] G = new char[3][3];
-    static char [][] B = new char[3][3];
-    static char [][] Y = new char[3][3];
-    static int [][] connect = new int[6][4];
-    static List<Character> list;
+    static char [][] R = new char[3][3]; //빨간색
+    static char [][] W = new char[3][3]; //흰색
+    static char [][] O = new char[3][3]; //주황색
+    static char [][] G = new char[3][3]; //초록색
+    static char [][] B = new char[3][3]; //파란색
+    static char [][] Y = new char[3][3]; //노란색
+    static int [][] connect = new int[6][4]; //각 면의 연결 정보
+    static List<Character> list; //한 면이 돌아갈 때의 옆면
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -22,7 +22,7 @@ public class Main {
 
         int T = Integer.parseInt(st.nextToken());
         while(T-->0){
-            fill();
+            fill(); //큐브 면과 각 면의 연결 정보를 채움
             int N = Integer.parseInt(br.readLine());
             st = new StringTokenizer(br.readLine(), " ");
             for(int i = 0; i < N; i++){
@@ -81,7 +81,7 @@ public class Main {
         char [][] k = new char[3][3];
         list = new ArrayList<>();
         switch(cube){
-            case 'F' : R = clock(R, d); c = 0; break;
+            case 'F' : R = clock(R, d); c = 0; break; //선택된 면이 돌아가면 그 면 또한 회전함
             case 'U' : W = clock(W, d); c = 1; break;
             case 'D' : Y = clock(Y, d); c = 5; break;
             case 'B' : O = clock(O, d); c = 2; break;
@@ -89,7 +89,7 @@ public class Main {
             case 'R' : B = clock(B, d); c = 4; break;
         }
         for(int i = 0; i < 4; i++){
-            int temp = connect[c][i];
+            int temp = connect[c][i]; //연결된 면
             char [][] t = new char[3][3];
             switch(temp){
                 case 0 : t = R; break;
@@ -99,27 +99,27 @@ public class Main {
                 case 4 : t = B; break;
                 case 5 : t = Y; break;
             }
-            if(connect[temp][0] == c){
+            if(connect[temp][0] == c){ //연결된 면과 맞닿은 부분이 위인 경우(추가)
                 TOP(t, true);
             }
-            else if(connect[temp][1] == c){
+            else if(connect[temp][1] == c){ //연결된 면과 맞닿은 부분이 오른쪽인 경우(추가)
                 RIGHT(t, true);
             }
-            else if(connect[temp][2] == c){
+            else if(connect[temp][2] == c){ //연결된 면과 맞닿은 부분이 아래인 경우(추가)
                 BOTTOM(t, true);
             }
-            else{
+            else{ //연결된 면과 맞닿은 부분이 왼쪽인 경우(추가)
                 LEFT(t, true);
             }
         }
 
-        if(d){
-            for(int i = 0; i < 3; i++){
+        if(d){ //시계방향
+            for(int i = 0; i < 3; i++){ //큐브면이 3개로 이루어져있으므로 
                 char temp = list.remove(list.size()-1);
                 list.add(0, temp);
             }
         }
-        else{
+        else{ //반시계방향
             for(int i = 0; i < 3; i++){
                 char temp = list.remove(0);
                 list.add(list.size(), temp);
@@ -136,16 +136,16 @@ public class Main {
                 case 4 : t = B; break;
                 case 5 : t = Y; break;
             }
-            if(connect[temp][0] == c){
+            if(connect[temp][0] == c){ //연결된 면과 맞닿은 부분이 위인 경우(제거)
                 TOP(t, false);
             }
-            else if(connect[temp][1] == c){
+            else if(connect[temp][1] == c){ //연결된 면과 맞닿은 부분이 오른쪽인 경우(제거)
                 RIGHT(t, false);
             }
-            else if(connect[temp][2] == c){
+            else if(connect[temp][2] == c){ //연결된 면과 맞닿은 부분이 아래인 경우(제거)
                 BOTTOM(t, false);
             }
-            else{
+            else{ //연결된 면과 맞닿은 부분이 왼쪽인 경우(제거)
                 LEFT(t, false);
             }
         }
