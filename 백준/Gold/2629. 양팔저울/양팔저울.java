@@ -16,8 +16,9 @@ public class Main {
             queue.add(temp);
         }
         boolean[] D = new boolean[max+1];
-        for(int temp : queue){
         List<Integer> t = new ArrayList<>();
+        for(int temp : queue){
+            t.clear();
             for(int i = max; i >= 0; i--){
                 if(!D[i] && D[Math.abs(i-temp)]){
                     t.add(i);
