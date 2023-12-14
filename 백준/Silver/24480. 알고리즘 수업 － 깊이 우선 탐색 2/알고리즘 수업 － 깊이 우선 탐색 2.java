@@ -10,6 +10,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
 
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
@@ -31,8 +32,9 @@ public class Main {
         }
         DFS(R);
         for(int i = 1; i < N+1; i++){
-            System.out.println(visited[i]);
+            sb.append(visited[i]+"\n");
         }
+        System.out.println(sb);
     }
 
     static void DFS(int n){
