@@ -6,6 +6,7 @@ public class Main {
     static int M;
     static int [] A;
     static boolean [] visited;
+    static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -20,11 +21,12 @@ public class Main {
         }
         Arrays.sort(A);
         DFS(0, "");
+        System.out.println(sb);
     }
 
     static void DFS(int d, String s){
         if(d == M){
-            System.out.println(s);
+            sb.append(s+"\n");
             return;
         }
 
