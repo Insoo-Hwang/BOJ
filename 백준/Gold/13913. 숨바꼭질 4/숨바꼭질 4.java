@@ -31,6 +31,7 @@ public class Main {
             if(now.l == K){
                 System.out.println(now.n);
                 System.out.println(now.s);
+                return;
             }
             if(now.l+1 < 100001 && !visited[now.l+1]){
                 visited[now.l+1] = true;
