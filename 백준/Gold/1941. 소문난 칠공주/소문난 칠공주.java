@@ -39,7 +39,18 @@ public class Main {
 
     static boolean check(){
         int count = 0;
+        int [] dy = {-1, 1, 0, 0};
+        int [] dx = {0, 0, -1, 1};
         for(int i = 0; i < 7; i++){
+            boolean c = false;
+            for(int j = 0; j < 4; j++){
+                int y = A[i]/5+dy[j];
+                int x = A[i]%5+dx[j];
+                if(y > 4 || y < 0 || x > 4 || x < 0 || !check[y][x]) continue;
+                c = true;
+                break;
+            }
+            if(!c) return false;
             if(school[A[i]/5][A[i]%5] == 1) count++;
         }
         if(BFS(A[0]/5, A[0]%5) && count < 4) return true;
