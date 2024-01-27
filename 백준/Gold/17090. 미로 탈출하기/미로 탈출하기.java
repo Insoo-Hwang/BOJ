@@ -29,7 +29,8 @@ public class Main {
         }
         for(int i = 0; i < N+2; i++){
             for(int j = 0; j < M+2; j++){
-                if(i == 0 || i == N+1 || j == 0 || j == M+1) visited[i][j] = -1;
+                if(i != 0 && i != N+1 && j != 0 && j != M+1) continue;
+                visited[i][j] = -1;
             }
         }
         int ans = 0;
