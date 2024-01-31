@@ -18,8 +18,8 @@ public class Main {
     }
 
     static boolean BFS(){
-        boolean [][] visited = new boolean[a+1][b+1];
-        visited[0][0] = true;
+        Set<String> hashSet = new HashSet<>();
+        hashSet.add("0_0");
         Queue<int []> queue = new LinkedList<>();
         queue.add(new int [] {0, 0, 0});
         while(!queue.isEmpty()){
@@ -28,32 +28,32 @@ public class Main {
                 System.out.println(now[2]);
                 return true;
             }
-            if(!visited[a][now[1]]){
-                visited[a][now[1]] = true;
+            if(now[0] != a && !hashSet.contains(a+"_"+now[1])){
+                hashSet.add(a+"_"+now[1]);
                 queue.add(new int [] {a, now[1], now[2]+1});
             }
-            if(!visited[0][now[1]]){
-                visited[0][now[1]] = true;
+            if(now[0] != 0 && !hashSet.contains(0+"_"+now[1])){
+                hashSet.add(0+"_"+now[1]);
                 queue.add(new int [] {0, now[1], now[2]+1});
             }
             int temp1 = Math.max(0, now[0]+now[1]-b);
             int temp2 = Math.min(now[0]+now[1], b);
-            if(!visited[temp1][temp2]){
-                visited[temp1][temp2] = true;
+            if(!hashSet.contains(temp1+"_"+temp2)){
+                hashSet.add(temp1+"_"+temp2);
                 queue.add(new int [] {temp1, temp2, now[2]+1});
             }
-            if(!visited[now[0]][b]){
-                visited[now[0]][b] = true;
+            if(now[1] != b && !hashSet.contains(now[0]+"_"+b)){
+                hashSet.add(now[0]+"_"+b);
                 queue.add(new int [] {now[0], b, now[2]+1});
             }
-            if(!visited[now[0]][0]){
-                visited[now[0]][0] = true;
+            if(now[1] != 0 && !hashSet.contains(now[0]+"_"+0)){
+                hashSet.add(now[0]+"_"+0);
                 queue.add(new int [] {now[0], 0, now[2]+1});
             }
             temp1 = Math.min(now[0]+now[1], a);
             temp2 = Math.max(0, now[0]+now[1]-a);
-            if(!visited[temp1][temp2]){
-                visited[temp1][temp2] = true;
+            if(!hashSet.contains(temp1+"_"+temp2)){
+                hashSet.add(temp1+"_"+temp2);
                 queue.add(new int [] {temp1, temp2, now[2]+1});
             }
         }
