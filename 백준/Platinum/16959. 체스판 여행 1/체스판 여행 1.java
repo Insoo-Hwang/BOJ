@@ -63,14 +63,6 @@ public class Main {
                     queue.add(new Chess(y, x, now.mode, now.cnt+1, target));
                     visited[now.mode][y][x] = true;
                 }
-                if(!visited[1][now.n][now.m]){
-                    queue.add(new Chess(now.n, now.m, 1, now.cnt+1, target));
-                    visited[1][now.n][now.m] = true;
-                }
-                if(!visited[2][now.n][now.m]){
-                    queue.add(new Chess(now.n, now.m, 2, now.cnt+1, target));
-                    visited[2][now.n][now.m] = true;
-                }
             }
             else if(now.mode == 1){
                 for(int i = 0; i < 4; i++){
@@ -81,14 +73,6 @@ public class Main {
                         queue.add(new Chess(y, x, now.mode, now.cnt+1, target));
                         visited[now.mode][y][x] = true;
                     }
-                }
-                if(!visited[0][now.n][now.m]){
-                    queue.add(new Chess(now.n, now.m, 0, now.cnt+1, target));
-                    visited[0][now.n][now.m] = true;
-                }
-                if(!visited[2][now.n][now.m]){
-                    queue.add(new Chess(now.n, now.m, 2, now.cnt+1, target));
-                    visited[2][now.n][now.m] = true;
                 }
             }
             else{
@@ -101,13 +85,12 @@ public class Main {
                         visited[now.mode][y][x] = true;
                     }
                 }
-                if(!visited[0][now.n][now.m]){
-                    queue.add(new Chess(now.n, now.m, 0, now.cnt+1, target));
-                    visited[0][now.n][now.m] = true;
-                }
-                if(!visited[1][now.n][now.m]){
-                    queue.add(new Chess(now.n, now.m, 1, now.cnt+1, target));
-                    visited[1][now.n][now.m] = true;
+            }
+            for(int i = 0; i < 3; i++){
+                if(now.mode == i) continue;
+                if(!visited[i][now.n][now.m]){
+                    queue.add(new Chess(now.n, now.m, i, now.cnt+1, target));
+                    visited[i][now.n][now.m] = true;
                 }
             }
         }
