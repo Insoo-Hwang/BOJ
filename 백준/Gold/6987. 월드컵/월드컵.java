@@ -9,6 +9,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         //StringTokenizer st = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
 
         int T = 4;
         while(T-->0){
@@ -22,9 +23,10 @@ public class Main {
             }
             check = false;
             DFS(0);
-            if(check) System.out.print("1 ");
-            else System.out.print("0 ");
+            if(check) sb.append("1 ");
+            else sb.append("0 ");
         }
+        System.out.println(sb);
     }
 
     static void DFS(int d){
@@ -38,24 +40,30 @@ public class Main {
             return;
         }
 
-        B[match[d][0]][0]++;
-        B[match[d][1]][2]++;
-        DFS(d+1);
-        B[match[d][0]][0]--;
-        B[match[d][1]][2]--;
-        if(check) return;
+        if(A[match[d][0]][0] > B[match[d][0]][0] && A[match[d][1]][2] > B[match[d][1]][2]) {
+            B[match[d][0]][0]++;
+            B[match[d][1]][2]++;
+            DFS(d + 1);
+            B[match[d][0]][0]--;
+            B[match[d][1]][2]--;
+            if (check) return;
+        }
 
-        B[match[d][1]][0]++;
-        B[match[d][0]][2]++;
-        DFS(d+1);
-        B[match[d][1]][0]--;
-        B[match[d][0]][2]--;
-        if(check) return;
+        if(A[match[d][1]][0] > B[match[d][1]][0] && A[match[d][0]][2] > B[match[d][0]][2]) {
+            B[match[d][1]][0]++;
+            B[match[d][0]][2]++;
+            DFS(d + 1);
+            B[match[d][1]][0]--;
+            B[match[d][0]][2]--;
+            if (check) return;
+        }
 
-        B[match[d][0]][1]++;
-        B[match[d][1]][1]++;
-        DFS(d+1);
-        B[match[d][0]][1]--;
-        B[match[d][1]][1]--;
+        if(A[match[d][0]][1] > B[match[d][0]][1] && A[match[d][1]][1] > B[match[d][1]][1]) {
+            B[match[d][0]][1]++;
+            B[match[d][1]][1]++;
+            DFS(d + 1);
+            B[match[d][0]][1]--;
+            B[match[d][1]][1]--;
+        }
     }
 }
