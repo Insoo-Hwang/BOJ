@@ -16,12 +16,14 @@ public class Main {
     }
 
     static void DFS(int d, int num, int start){
-        if(digits(num) > D) return;
         if(d == P){
             max = Math.max(max, num);
             return;
         }
-        for(int i = start; i > 1; i--) DFS(d+1, num*i, i);
+        for(int i = start; i > 1; i--){
+            if(digits(num*i) > D) continue;
+            DFS(d+1, num*i, i);
+        }
     }
 
     static int digits(int num){
