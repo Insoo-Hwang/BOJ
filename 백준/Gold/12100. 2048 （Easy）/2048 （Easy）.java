@@ -1,212 +1,146 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
     static int N;
-    static int [][] A;
     static int max = 0;
+    static int tempmax;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         N = Integer.parseInt(st.nextToken());
-        A = new int[N][N];
+        int [][] A = new int[N][N];
         for(int i = 0; i < N; i++){
             st = new StringTokenizer(br.readLine());
             for(int j = 0; j < N; j++){
                 A[i][j] = Integer.parseInt(st.nextToken());
+                max = Math.max(max, A[i][j]);
             }
         }
-        int [][] B = new int[N][N]; //A배열 초기화를 위한 복사본 생성(백트래킹)
+        DFS(A, 0, max, "");
+        System.out.println(max);
+    }
+
+    static void DFS(int [][] A, int d, int m, String s){
+        if(d == 5) return;
+        tempmax = m;
+        int [][] tempA = up(copy(A));
+        if(Math.pow(2, 9-d)*tempmax >= max) DFS(tempA, d+1, tempmax, s+"u");
+        tempmax = m;
+        tempA = down(copy(A));
+        if(Math.pow(2, 9-d)*tempmax >= max) DFS(tempA, d+1, tempmax, s+"d");
+        tempmax = m;
+        tempA = left(copy(A));
+        if(Math.pow(2, 9-d)*tempmax >= max) DFS(tempA, d+1, tempmax, s+"l");
+        tempmax = m;
+        tempA = right(copy(A));
+        if(Math.pow(2, 9-d)*tempmax >= max) DFS(tempA, d+1, tempmax, s+"r");
+    }
+
+    static int [][] up(int [][] A){
+        boolean [][] visited = new boolean[N][N];
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                if(A[j][i] == 0) continue;
+                int temp = j-1;
+                while(temp > -1){
+                    if(A[temp][i] != 0) break;
+                    A[temp][i] = A[temp+1][i];
+                    A[temp+1][i] = 0;
+                    temp--;
+                }
+                if(temp+1 > 0 && A[temp][i] == A[temp+1][i] && !visited[temp][i]){
+                    A[temp][i]*=2;
+                    A[temp+1][i] = 0;
+                    visited[temp][i] = true;
+                    max = Math.max(max, A[temp][i]);
+                    tempmax = Math.max(tempmax, A[temp][i]);
+                }
+            }
+        }
+        return A;
+    }
+
+    static int [][] down(int [][] A){
+        boolean [][] visited = new boolean[N][N];
+        for(int i = 0; i < N; i++){
+            for(int j = N-1; j > -1; j--){
+                if(A[j][i] == 0) continue;
+                int temp = j+1;
+                while(temp < N){
+                    if(A[temp][i] != 0) break;
+                    A[temp][i] = A[temp-1][i];
+                    A[temp-1][i] = 0;
+                    temp++;
+                }
+                if(temp-1 < N-1 && A[temp][i] == A[temp-1][i] && !visited[temp][i]){
+                    A[temp][i]*=2;
+                    A[temp-1][i] = 0;
+                    visited[temp][i] = true;
+                    max = Math.max(max, A[temp][i]);
+                    tempmax = Math.max(tempmax, A[temp][i]);
+                }
+            }
+        }
+        return A;
+    }
+
+    static int [][] left(int [][] A){
+        boolean [][] visited = new boolean[N][N];
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                if(A[i][j] == 0) continue;
+                int temp = j-1;
+                while(temp > -1){
+                    if(A[i][temp] != 0) break;
+                    A[i][temp] = A[i][temp+1];
+                    A[i][temp+1] = 0;
+                    temp--;
+                }
+                if(temp+1 > 0 && A[i][temp] == A[i][temp+1] && !visited[i][temp]){
+                    A[i][temp]*=2;
+                    A[i][temp+1] = 0;
+                    visited[i][temp] = true;
+                    max = Math.max(max, A[i][temp]);
+                    tempmax = Math.max(tempmax, A[i][temp]);
+                }
+            }
+        }
+        return A;
+    }
+
+    static int [][] right(int [][] A){
+        boolean [][] visited = new boolean[N][N];
+        for(int i = 0; i < N; i++){
+            for(int j = N-1; j > -1; j--){
+                if(A[i][j] == 0) continue;
+                int temp = j+1;
+                while(temp < N){
+                    if(A[i][temp] != 0) break;
+                    A[i][temp] = A[i][temp-1];
+                    A[i][temp-1] = 0;
+                    temp++;
+                }
+                if(temp-1 < N-1 && A[i][temp] == A[i][temp-1] && !visited[i][temp]){
+                    A[i][temp]*=2;
+                    A[i][temp-1] = 0;
+                    visited[i][temp] = true;
+                    max = Math.max(max, A[i][temp]);
+                    tempmax = Math.max(tempmax, A[i][temp]);
+                }
+            }
+        }
+        return A;
+    }
+
+    static int [][] copy(int [][] A){
+        int [][] B = new int[N][N];
         for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
                 B[i][j] = A[i][j];
             }
         }
-        move(1, 0);
-        A = B; //move(1, 0)으로 변경된 A배열을 초기화 해줌
-        move(2, 0);
-        A = B;
-        move(3, 0);
-        A = B;
-        move(4, 0);
-        System.out.println(max);
-    }
-    static void move(int n, int d){ //n은 방향 d는 move함수가 불려진 횟수
-        if(d == 5){ //move함수가 5번 불려지면 종료 후 가장 큰 값 확인
-            for(int i = 0; i < N; i++){
-                for(int j = 0; j < N; j++){
-                    max = Math.max(max, A[i][j]);
-                }
-            }
-            return;
-        }
-
-        if(n == 1){ //위로 이동하는 경우
-            int [][] B = new int[N][N]; //이동할때 한번에 이동해야하지만 배열 특성상 순차적으로 이동하기 때문에 이를 맞춰주기 위한 복사본 생성
-            for(int i = 0; i < N; i++){
-                for(int j = 0; j < N; j++){
-                    B[i][j] = A[i][j];
-                }
-            }
-            for(int i = 0; i < N; i++){ //위에 있는 값부터 아래로 내려가며 합쳐짐(항상 자신의 아래값과 같다면 합쳐지고 0이 나오지 않을 때까지 위로 이동)
-                for(int j = 0; j < N; j++){
-                    if(B[i][j] == 0) continue; //해당 배열에 값이 없다면 패스
-                    if(i != N-1){ //가장 아래에 있는 값은 더 아래의 값과 합쳐질 수 없음
-                        for(int k = i+1; k < N; k++){ //아래 값이 0일때 그보다 더 아래 값과 합쳐질 수 있음
-                            if(B[i][j] != B[k][j] && B[k][j] != 0){ //아래 값이 0이 아니고 B[i][j]와 다르면 합쳐질 수 없음
-                                break;
-                            }
-                            else if(B[i][j] == B[k][j]){ //같다면 합쳐질 수 있음
-                                B[i][j]*=2;
-                                B[k][j] = 0;
-                                break;
-                            }
-                        }
-                    }
-                    int temp = i-1; //위로 이동하기 위한 변수
-                    while(true){
-                        if(temp < 0) break; //맨 위에 도달하면 정지
-                        if(B[temp][j] != 0) break; //자신보다 위의 값이 0이 아닌 경우 정지
-                        B[temp][j] = B[temp+1][j]; //위로 이동
-                        B[temp+1][j] = 0;
-                        temp--;
-                    }
-                }
-            }
-            A = B;
-            move(1, d+1); //위로 이동
-            A = B;
-            move(2, d+1); //아래로 이동
-            A = B;
-            move(3, d+1); //우로 이동
-            A = B;
-            move(4, d+1); //좌로 이동
-        }
-        else if(n == 2){ //아래로 이동하는 경우
-            int [][] B = new int[N][N];
-            for(int i = 0; i < N; i++){
-                for(int j = 0; j < N; j++){
-                    B[i][j] = A[i][j];
-                }
-            }
-            for(int i = N-1; i > -1; i--){
-                for(int j = 0; j < N; j++){
-                    if(B[i][j] == 0) continue;
-                    if(i != 0){
-                        for(int k = i-1; k > -1; k--){
-                            if(B[i][j] != B[k][j] && B[k][j] != 0){
-                                break;
-                            }
-                            else if(B[i][j] == B[k][j]){
-                                B[i][j]*=2;
-                                B[k][j] = 0;
-                                break;
-                            }
-                        }
-                    }
-                    int temp = i+1;
-                    while(true){
-                        if(temp >= N) break;
-                        if(B[temp][j] != 0) break;
-                        B[temp][j] = B[temp-1][j];
-                        B[temp-1][j] = 0;
-                        temp++;
-                    }
-                }
-            }
-            A = B;
-            move(1, d+1);
-            A = B;
-            move(2, d+1);
-            A = B;
-            move(3, d+1);
-            A = B;
-            move(4, d+1);
-        }
-        else if(n == 3){ //우로 이동하는 경우
-            int [][] B = new int[N][N];
-            for(int i = 0; i < N; i++){
-                for(int j = 0; j < N; j++){
-                    B[i][j] = A[i][j];
-                }
-            }
-            for(int i = 0; i < N; i++){
-                for(int j = N-1; j > -1; j--){
-                    if(B[i][j] == 0) continue;
-                    if(j != 0){
-                        for(int k = j-1; k > -1; k--){
-                            if(B[i][j] != B[i][k] && B[i][k] != 0){
-                                break;
-                            }
-                            else if(B[i][j] == B[i][k]){
-                                B[i][j]*=2;
-                                B[i][k] = 0;
-                                break;
-                            }
-                        }
-                    }
-                    int temp = j+1;
-                    while(true){
-                        if(temp >= N) break;
-                        if(B[i][temp] != 0) break;
-                        B[i][temp] = B[i][temp-1];
-                        B[i][temp-1] = 0;
-                        temp++;
-                    }
-                }
-            }
-            A = B;
-            move(1, d+1);
-            A = B;
-            move(2, d+1);
-            A = B;
-            move(3, d+1);
-            A = B;
-            move(4, d+1);
-        }
-        else if(n == 4){ //좌로 이동하는 경우
-            int [][] B = new int[N][N];
-            for(int i = 0; i < N; i++){
-                for(int j = 0; j < N; j++){
-                    B[i][j] = A[i][j];
-                }
-            }
-            for(int i = 0; i < N; i++){
-                for(int j = 0; j < N; j++){
-                    if(B[i][j] == 0) continue;
-                    if(j != N-1){
-                        for(int k = j+1; k < N; k++){
-                            if(B[i][j] != B[i][k] && B[i][k] != 0){
-                                break;
-                            }
-                            else if(B[i][j] == B[i][k]){
-                                B[i][j]*=2;
-                                B[i][k] = 0;
-                                break;
-                            }
-                        }
-                    }
-                    int temp = j-1;
-                    while(true){
-                        if(temp < 0) break;
-                        if(B[i][temp] != 0) break;
-                        B[i][temp] = B[i][temp+1];
-                        B[i][temp+1] = 0;
-                        temp--;
-                    }
-                }
-            }
-            A = B;
-            move(1, d+1);
-            A = B;
-            move(2, d+1);
-            A = B;
-            move(3, d+1);
-            A = B;
-            move(4, d+1);
-        }
+        return B;
     }
 }
