@@ -10,6 +10,7 @@ public class Main {
     static int [] dy = {0, -1, 0};
     static int [] dx = {-1, 0, 1};
     static int max = 0;
+    static boolean maxCheck = false;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -38,6 +39,7 @@ public class Main {
         for(int i = s; i < M; i++){
             arrow[d] = i;
             DFS(d+1, i+1);
+            if(maxCheck) return;
         }
     }
 
@@ -52,6 +54,7 @@ public class Main {
         int cnt = 0;
         boolean [][] visited;
         for(int i = 0; i < N; i++){
+            if(max >= 3*(N-i)+cnt) break;
             List<int []> dead =  new LinkedList<>();
             for(int j = 0; j < 3; j++){
                 visited = new boolean[N+1][M];
@@ -80,6 +83,7 @@ public class Main {
                 cnt++;
             }
         }
+        if(cnt == N*3) maxCheck = true;
         return cnt;
     }
 }
