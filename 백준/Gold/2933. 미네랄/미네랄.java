@@ -101,7 +101,6 @@ public class Main {
     }
 
     static void drop(){
-        Collections.sort(list);
         int dh = 1;
         while(true){
             boolean check = true;
@@ -124,18 +123,13 @@ public class Main {
         }
     }
 
-    static class Cluster implements Comparable<Cluster>{
+    static class Cluster{
         int n;
         int m;
 
         public Cluster(int n, int m){
             this.n = n;
             this.m = m;
-        }
-
-        @Override
-        public int compareTo(Cluster o){
-            return o.n-this.n;
         }
     }
 }
